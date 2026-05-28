@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aircraft Reference</title>
+  <style>
+    :root{
+      --bg:#070A12;
+      --panel:#0D1222;
+      --panel2:#0A0F1D;
+      --text:#E6EAF2;
+      --muted:#9AA6C1;
+      --accent:#4BE3FF;
+      --accent2:#B14BFF;
+      --border:rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(75,227,255,.10), transparent 60%),
+                  radial-gradient(1000px 600px at 80% 10%, rgba(177,75,255,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      position:sticky; top:0; z-index:10;
+      background: linear-gradient(to bottom, rgba(7,10,18,.92), rgba(7,10,18,.70));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 16px;
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+    }
+    .title{
+      display:flex; flex-direction:column; line-height:1.15;
+    }
+    .title b{letter-spacing:.4px}
+    .title span{color:var(--muted); font-size:12px}
+    .search{
+      display:flex; gap:8px; align-items:center;
+      width:min(620px, 65vw);
+    }
+    input, select, button{
+      padding:10px 12px;
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      border:1px solid var(--border);
+      border-radius:10px;
+      outline:none;
+      font: inherit;
+    }
+    input{ width:100%; }
+    input:focus, select:focus, button:focus{
+      border-color: rgba(75,227,255,.45);
+      box-shadow: 0 0 0 3px rgba(75,227,255,.10)
+    }
+    button{
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    button:hover{ background: rgba(255,255,255,.06); }
+
+    main{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 14px;
+      padding: 14px;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+    .panel{
+      background: linear-gradient(180deg, rgba(13,18,34,.92), rgba(10,15,29,.92));
+      border:1px solid var(--border);
+      border-radius:14px;
+      overflow:hidden;
+    }
+    .leftTop{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px}
+    .chip{
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      cursor:pointer;
+      user-select:none;
+      font-size:12px;
+      background: rgba(255,255,255,.03);
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      max-width: 100%;
+    }
+    .chip .chipCount{
+      font-size:11px;
+      padding:2px 7px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+    }
+    .chip.active{
+      color:var(--text);
+      border-color: rgba(75,227,255,.45);
+      box-shadow: 0 0 0 3px rgba(75,227,255,.10);
+    }
+    .chip.active .chipCount{
+      border-color: rgba(75,227,255,.35);
+      color: var(--text);
+    }
+    .chip.more{
+      border-style:dashed;
+    }
+    .filtersLine{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .filtersLine b{ color: var(--text); }
+    .list{
+      max-height: calc(100vh - 215px);
+      overflow:auto;
+    }
+    .row{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      cursor:pointer;
+      display:flex; justify-content:space-between; gap:10px;
+      align-items:center;
+    }
+    .row:hover{background: rgba(255,255,255,.03)}
+    .row.active{background: rgba(75,227,255,.06)}
+    .row .name{font-weight:600}
+    .row .meta{font-size:12px; color:var(--muted)}
+    .badge{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .detail{
+      padding: 14px;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .imgBox{
+      width:100%;
+      aspect-ratio: 4/3;
+      border-radius:12px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--muted);
+      font-size:12px;
+    }
+    .imgBox img{width:100%; height:100%; object-fit:cover}
+    .hTitle{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .hTitle h1{margin:0; font-size:22px}
+    .subline{color:var(--muted); font-size:13px}
+    .grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    .card{
+      border:1px solid var(--border);
+      border-radius:12px;
+      background: rgba(255,255,255,.03);
+      padding:10px;
+      min-height: 66px;
+    }
+    .card .k{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px}
+    .card .v{margin-top:6px; font-size:14px; font-weight:600}
+    .desc{
+      margin-top:14px;
+      border-top:1px solid var(--border);
+      padding-top:14px;
+      color: var(--text);
+      line-height:1.45;
+    }
+    .desc p{margin:0 0 10px 0; color:rgba(230,234,242,.92)}
+    .small{color:var(--muted); font-size:12px}
+    .rightFoot{
+      margin-top:10px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:12px;
+    }
+    a{color:var(--accent)}
+    @media (max-width: 980px){
+      main{grid-template-columns: 1fr}
+      .hero{grid-template-columns: 1fr}
+      .list{max-height: 44vh}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="title">
+    <b>Aircraft Reference</b>
+    <span>Wikipedia intro + Wikidata specs (click an aircraft)</span>
+  </div>
+  <div class="search">
+    <input id="q" placeholder="Search (e.g., A320, H145, C-130, 'cargo', '193rd')" />
+    <button id="clearBtn" title="Clear search + tag filters">Clear</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="leftTop">
+      <div class="chips" id="chips"></div>
+      <div class="filtersLine">
+        <span>Tag match:</span>
+        <select id="tagMode" style="padding:8px 10px;">
+          <option value="any">Any selected (OR)</option>
+          <option value="all">All selected (AND)</option>
+        </select>
+        <span id="filterSummary"></span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <select id="sort">
+          <option value="name">Sort: Name</option>
+          <option value="icao">Sort: ICAO Type</option>
+        </select>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section class="panel">
+    <div class="detail" id="detail">
+      <div class="small">Select an aircraft on the left to load details.</div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // NOTE: Your page automatically picks up *any* new aircraft/tags you add to aircraft_catalog.json
+  const CATALOG_URL = "./aircraft_catalog.json";
+
+  // Wikipedia (MediaWiki Action API) – intro extract + thumbnail + wikibase_item + fullurl
+  const WIKI_API = "https://en.wikipedia.org/w/api.php";
+
+  // Wikidata Query Service (SPARQL) – structured specs
+  const WDQS = "https://query.wikidata.org/sparql";
+
+  let catalog = [];
+  let activeTags = new Set();     // empty = no tag filter (show all)
+  let activeId = null;
+  let showAllTags = false;
+
+  const elList = document.getElementById("list");
+  const elDetail = document.getElementById("detail");
+  const elChips = document.getElementById("chips");
+  const elQ = document.getElementById("q");
+  const elSort = document.getElementById("sort");
+  const elTagMode = document.getElementById("tagMode");
+  const elFilterSummary = document.getElementById("filterSummary");
+  const elClearBtn = document.getElementById("clearBtn");
+
+  function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
+
+  function buildTagCounts(items){
+    const counts = new Map();
+    for(const x of items){
+      for(const t of (x.tags || [])){
+        counts.set(t, (counts.get(t) || 0) + 1);
+      }
+    }
+    // sort by count desc, then alpha
+    const ordered = [...counts.keys()].sort((a,b)=>{
+      const da = counts.get(a) || 0;
+      const db = counts.get(b) || 0;
+      if(db !== da) return db - da;
+      return a.localeCompare(b);
+    });
+    return { counts, ordered };
+  }
+
+  function isChipActive(label){
+    if(label === "all") return activeTags.size === 0;
+    return activeTags.has(label);
+  }
+
+  function chip(label, count, opts={}){
+    const d = document.createElement("div");
+    d.className = "chip" + (isChipActive(label) ? " active" : "") + (opts.more ? " more" : "");
+    if(opts.more){
+      d.textContent = label;
+      d.onclick = () => { showAllTags = !showAllTags; renderChips(); };
+      return d;
+    }
+
+    d.innerHTML = `
+      <span>${escapeHtml(label)}</span>
+      <span class="chipCount">${escapeHtml(String(count ?? 0))}</span>
+    `;
+
+    d.onclick = () => {
+      if(label === "all"){
+        activeTags.clear();
+      } else {
+        if(activeTags.has(label)) activeTags.delete(label);
+        else activeTags.add(label);
+      }
+      renderList();
+      renderChips();
+      renderFilterSummary();
+    };
+    return d;
+  }
+
+  function renderFilterSummary(){
+    const q = elQ.value.trim();
+    const tags = [...activeTags];
+    const parts = [];
+    if(q) parts.push(`Search: <b>${escapeHtml(q)}</b>`);
+    if(tags.length){
+      parts.push(`Tags: <b>${escapeHtml(tags.join(", "))}</b>`);
+    } else {
+      parts.push(`Tags: <b>all</b>`);
+    }
+    elFilterSummary.innerHTML = parts.join(" • ");
+  }
+
+  function renderChips(){
+    elChips.innerHTML = "";
+
+    // always show "all"
+    const { counts, ordered } = buildTagCounts(catalog);
+    elChips.appendChild(chip("all", catalog.length));
+
+    const MAX = 18;
+    const tagsToShow = showAllTags ? ordered : ordered.slice(0, MAX);
+    for(const t of tagsToShow){
+      elChips.appendChild(chip(t, counts.get(t) || 0));
+    }
+
+    if(!showAllTags && ordered.length > MAX){
+      elChips.appendChild(chip(`+${ordered.length - MAX} more`, 0, { more: true }));
+    } else if(showAllTags && ordered.length > MAX){
+      elChips.appendChild(chip("show less", 0, { more: true }));
+    }
+  }
+
+  function matchItem(item, q){
+    if(!q) return true;
+    const s = q.toLowerCase();
+    const hay = [
+      item.name, item.icao, item.wikipedia_title,
+      ...(item.tags||[])
+    ].filter(Boolean).join(" ").toLowerCase();
+    return hay.includes(s);
+  }
+
+  function matchesTags(item){
+    if(activeTags.size === 0) return true;
+    const tags = item.tags || [];
+    const mode = elTagMode.value || "any";
+    if(mode === "all"){
+      for(const t of activeTags){
+        if(!tags.includes(t)) return false;
+      }
+      return true;
+    } else {
+      for(const t of activeTags){
+        if(tags.includes(t)) return true;
+      }
+      return false;
+    }
+  }
+
+  function renderList(){
+    const q = elQ.value.trim();
+    const sortMode = elSort.value;
+
+    let items = catalog
+      .filter(x => matchesTags(x))
+      .filter(x => matchItem(x, q));
+
+    items.sort((a,b) => {
+      const aa = (a[sortMode] || "").toString();
+      const bb = (b[sortMode] || "").toString();
+      return aa.localeCompare(bb);
+    });
+
+    elList.innerHTML = "";
+    if(items.length === 0){
+      elList.innerHTML = `<div class="small" style="padding:12px;">No matches.</div>`;
+      return;
+    }
+
+    items.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "row" + (item.id === activeId ? " active" : "");
+      row.onclick = () => selectAircraft(item);
+      row.innerHTML = `
+        <div>
+          <div class="name">${escapeHtml(item.name)}</div>
+          <div class="meta">${escapeHtml((item.tags||[]).slice(0,3).join(" • "))}</div>
+        </div>
+        <div class="badge">${escapeHtml(item.icao || "—")}</div>
+      `;
+      elList.appendChild(row);
+    });
+  }
+
+  function escapeHtml(str){
+    return (str||"").replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+    }[m]));
+  }
+  function fmtDate(s){
+    if(!s) return "—";
+    // Wikidata dates often come back like "1999-06-12T00:00:00Z"
+    const d = new Date(s);
+    if(Number.isNaN(d.getTime())) return s;
+    return d.toISOString().slice(0,10);
+  }
+
+  function fmtQty(amount, unit){
+    if(amount == null) return "—";
+    const a = (""+amount).replace(/^\+/, "");
+    if(!unit) return a;
+    // Normalize common unit labels a bit
+    const u = unit
+      .replace("metre", "m")
+      .replace("kilogram", "kg")
+      .replace("kilometre per hour", "km/h")
+      .replace("kilometre", "km");
+    return `${a} ${u}`;
+  }
+
+  async function fetchWikiIntro(title){
+    const params = new URLSearchParams({
+      action: "query",
+      format: "json",
+      origin: "*",
+      redirects: "1",
+      prop: "extracts|pageimages|pageprops|info",
+      exintro: "1",
+      explaintext: "1",
+      piprop: "thumbnail",
+      pithumbsize: "640",
+      ppprop: "wikibase_item",
+      inprop: "url",
+      titles: title
+    });
+
+    const url = `${WIKI_API}?${params.toString()}`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error(`Wikipedia fetch failed (${r.status})`);
+    const j = await r.json();
+
+    const pages = j?.query?.pages;
+    const page = pages ? pages[Object.keys(pages)[0]] : null;
+    if(!page || page.missing) throw new Error("Wikipedia page not found.");
+
+    return {
+      title: page.title,
+      extract: page.extract || "",
+      thumb: page.thumbnail?.source || null,
+      fullurl: page.fullurl || null,
+      qid: page.pageprops?.wikibase_item || null
+    };
+  }
+
+  async function fetchWikidataSpecs(qid){
+    if(!qid) return null;
+
+    // Key Wikidata properties used here are common in aviation items
+    // (length P2043, wingspan P2050, height P2048, MTOW via mass P2067 + qualifier, etc.)
+    const sparql = `
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX ps: <http://www.wikidata.org/prop/statement/>
+PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX bd: <http://www.bigdata.com/rdf#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT
+  ?manufacturerLabel
+  ?firstFlight
+  ?serviceEntry
+  ?image
+  ?lengthAmount ?lengthUnitLabel
+  ?wingspanAmount ?wingspanUnitLabel
+  ?heightAmount ?heightUnitLabel
+  ?mtowAmount ?mtowUnitLabel
+  ?cruiseAmount ?cruiseUnitLabel
+  ?rangeAmount ?rangeUnitLabel
+  ?ceilingAmount ?ceilingUnitLabel
+  ?payloadAmount ?payloadUnitLabel
+  ?capacityAmount
+  ?engineLabel ?engineQty
+WHERE {
+  BIND(wd:${qid} AS ?item)
+
+  OPTIONAL { ?item wdt:P176 ?manufacturer. }
+  OPTIONAL { ?item wdt:P606 ?firstFlight. }
+  OPTIONAL { ?item wdt:P729 ?serviceEntry. }
+  OPTIONAL { ?item wdt:P18 ?image. }
+
+  OPTIONAL {
+    ?item p:P2043 ?lenStmt .
+    ?lenStmt ps:P2043 ?lenNode .
+    ?lenNode wikibase:quantityAmount ?lengthAmount ;
+             wikibase:quantityUnit ?lengthUnit .
+    OPTIONAL { ?lengthUnit rdfs:label ?lengthUnitLabel FILTER(LANG(?lengthUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P2050 ?wsStmt .
+    ?wsStmt ps:P2050 ?wsNode .
+    ?wsNode wikibase:quantityAmount ?wingspanAmount ;
+            wikibase:quantityUnit ?wingspanUnit .
+    OPTIONAL { ?wingspanUnit rdfs:label ?wingspanUnitLabel FILTER(LANG(?wingspanUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P2048 ?htStmt .
+    ?htStmt ps:P2048 ?htNode .
+    ?htNode wikibase:quantityAmount ?heightAmount ;
+            wikibase:quantityUnit ?heightUnit .
+    OPTIONAL { ?heightUnit rdfs:label ?heightUnitLabel FILTER(LANG(?heightUnitLabel)="en") }
+  }
+
+  # MTOW is usually stored as mass (P2067) with a qualifier "of" (P642) = maximum takeoff weight (Q938476)
+  OPTIONAL {
+    ?item p:P2067 ?mStmt .
+    ?mStmt ps:P2067 ?mNode .
+    ?mNode wikibase:quantityAmount ?mtowAmount ;
+           wikibase:quantityUnit ?mtowUnit .
+    ?mStmt pq:P642 wd:Q938476 .
+    OPTIONAL { ?mtowUnit rdfs:label ?mtowUnitLabel FILTER(LANG(?mtowUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P2217 ?csStmt .
+    ?csStmt ps:P2217 ?csNode .
+    ?csNode wikibase:quantityAmount ?cruiseAmount ;
+            wikibase:quantityUnit ?cruiseUnit .
+    OPTIONAL { ?cruiseUnit rdfs:label ?cruiseUnitLabel FILTER(LANG(?cruiseUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P2073 ?rgStmt .
+    ?rgStmt ps:P2073 ?rgNode .
+    ?rgNode wikibase:quantityAmount ?rangeAmount ;
+            wikibase:quantityUnit ?rangeUnit .
+    OPTIONAL { ?rangeUnit rdfs:label ?rangeUnitLabel FILTER(LANG(?rangeUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P2254 ?ceStmt .
+    ?ceStmt ps:P2254 ?ceNode .
+    ?ceNode wikibase:quantityAmount ?ceilingAmount ;
+            wikibase:quantityUnit ?ceilingUnit .
+    OPTIONAL { ?ceilingUnit rdfs:label ?ceilingUnitLabel FILTER(LANG(?ceilingUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P4519 ?plStmt .
+    ?plStmt ps:P4519 ?plNode .
+    ?plNode wikibase:quantityAmount ?payloadAmount ;
+            wikibase:quantityUnit ?payloadUnit .
+    OPTIONAL { ?payloadUnit rdfs:label ?payloadUnitLabel FILTER(LANG(?payloadUnitLabel)="en") }
+  }
+
+  OPTIONAL {
+    ?item p:P1083 ?capStmt .
+    ?capStmt ps:P1083 ?capNode .
+    ?capNode wikibase:quantityAmount ?capacityAmount .
+  }
+
+  # Engines: "powered by" (P516) with optional qualifier "quantity" (P1114)
+  OPTIONAL {
+    ?item p:P516 ?engStmt .
+    ?engStmt ps:P516 ?engine .
+    OPTIONAL { ?engStmt pq:P1114 ?engineQty. }
+  }
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+LIMIT 50`;
+
+    const url = `${WDQS}?format=json&query=${encodeURIComponent(sparql)}`;
+    const r = await fetch(url, { headers: { "Accept": "application/sparql-results+json" }});
+    if(!r.ok) throw new Error(`Wikidata fetch failed (${r.status})`);
+    const j = await r.json();
+    return j?.results?.bindings || [];
+  }
+
+  function commonsThumbFromFile(imageFile, width=640){
+    // imageFile may look like "Lufthansa Airbus A320-211 D-AIQT 01.jpg"
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(imageFile)}?width=${width}`;
+  }
+
+  function pickFirst(bindings, key){
+    for(const b of bindings){
+      if(b[key]?.value) return b[key].value;
+    }
+    return null;
+  }
+
+  function collectEngines(bindings){
+    const map = new Map();
+    for(const b of bindings){
+      const name = b.engineLabel?.value;
+      if(!name) continue;
+      const qty = b.engineQty?.value ? (""+b.engineQty.value).replace(/^\+/, "") : "";
+      const k = name;
+      if(!map.has(k)) map.set(k, new Set());
+      if(qty) map.get(k).add(qty);
+    }
+    if(map.size === 0) return "—";
+    const parts = [];
+    for(const [name, qtys] of map.entries()){
+      const q = qtys.size ? ` (x${[...qtys][0]})` : "";
+      parts.push(`${name}${q}`);
+    }
+    return parts.join(", ");
+  }
+
+  async function selectAircraft(item){
+    activeId = item.id;
+    renderList();
+
+    elDetail.innerHTML = `<div class="small">Loading <b>${escapeHtml(item.name)}</b>…</div>`;
+
+    try{
+      const wiki = await fetchWikiIntro(item.wikipedia_title);
+      const specs = await fetchWikidataSpecs(wiki.qid);
+
+      const img = wiki.thumb || (pickFirst(specs, "image") ? commonsThumbFromFile(pickFirst(specs, "image")) : null);
+
+      const manufacturer = pickFirst(specs, "manufacturerLabel") || "—";
+      const firstFlight = fmtDate(pickFirst(specs, "firstFlight"));
+      const serviceEntry = fmtDate(pickFirst(specs, "serviceEntry"));
+
+      const length = fmtQty(pickFirst(specs, "lengthAmount"), pickFirst(specs, "lengthUnitLabel"));
+      const wingspan = fmtQty(pickFirst(specs, "wingspanAmount"), pickFirst(specs, "wingspanUnitLabel"));
+      const height = fmtQty(pickFirst(specs, "heightAmount"), pickFirst(specs, "heightUnitLabel"));
+
+      const mtow = fmtQty(pickFirst(specs, "mtowAmount"), pickFirst(specs, "mtowUnitLabel"));
+      const cruise = fmtQty(pickFirst(specs, "cruiseAmount"), pickFirst(specs, "cruiseUnitLabel"));
+      const range = fmtQty(pickFirst(specs, "rangeAmount"), pickFirst(specs, "rangeUnitLabel"));
+      const ceiling = fmtQty(pickFirst(specs, "ceilingAmount"), pickFirst(specs, "ceilingUnitLabel"));
+      const payload = fmtQty(pickFirst(specs, "payloadAmount"), pickFirst(specs, "payloadUnitLabel"));
+      const capacity = pickFirst(specs, "capacityAmount") ? (""+pickFirst(specs, "capacityAmount")).replace(/^\+/, "") : "—";
+      const engines = collectEngines(specs);
+
+      elDetail.innerHTML = `
+        <div class="hero">
+          <div class="imgBox">${img ? `<img alt="" src="${img}">` : `No image`}</div>
+          <div class="hTitle">
+            <h1>${escapeHtml(item.name)}</h1>
+            <div class="subline">
+              ICAO type: <b>${escapeHtml(item.icao || "—")}</b>
+              • Tags: ${escapeHtml((item.tags||[]).join(", "))}
+            </div>
+            <div class="grid">
+              <div class="card"><div class="k">Manufacturer</div><div class="v">${escapeHtml(manufacturer)}</div></div>
+              <div class="card"><div class="k">First flight</div><div class="v">${escapeHtml(firstFlight)}</div></div>
+              <div class="card"><div class="k">Service entry</div><div class="v">${escapeHtml(serviceEntry)}</div></div>
+
+              <div class="card"><div class="k">Length</div><div class="v">${escapeHtml(length)}</div></div>
+              <div class="card"><div class="k">Wingspan / rotor span</div><div class="v">${escapeHtml(wingspan)}</div></div>
+              <div class="card"><div class="k">Height</div><div class="v">${escapeHtml(height)}</div></div>
+
+              <div class="card"><div class="k">MTOW</div><div class="v">${escapeHtml(mtow)}</div></div>
+              <div class="card"><div class="k">Cruise speed</div><div class="v">${escapeHtml(cruise)}</div></div>
+              <div class="card"><div class="k">Range</div><div class="v">${escapeHtml(range)}</div></div>
+
+              <div class="card"><div class="k">Ceiling</div><div class="v">${escapeHtml(ceiling)}</div></div>
+              <div class="card"><div class="k">Payload</div><div class="v">${escapeHtml(payload)}</div></div>
+              <div class="card"><div class="k">Capacity</div><div class="v">${escapeHtml(capacity)}</div></div>
+
+              <div class="card" style="grid-column: 1 / -1;">
+                <div class="k">Engines / powerplant</div>
+                <div class="v">${escapeHtml(engines)}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="desc">
+          ${wiki.extract ? `<p>${escapeHtml(wiki.extract)}</p>` : `<p class="small">No intro text found.</p>`}
+          <div class="rightFoot">
+            <span>Sources:</span>
+            ${wiki.fullurl ? `<a href="${wiki.fullurl}" target="_blank" rel="noopener">Wikipedia</a>` : `<span>Wikipedia</span>`}
+            <span>•</span>
+            ${wiki.qid ? `<a href="https://www.wikidata.org/wiki/${wiki.qid}" target="_blank" rel="noopener">Wikidata (${wiki.qid})</a>` : `<span>Wikidata</span>`}
+          </div>
+          <div class="small" style="margin-top:10px;">
+            Tip: Specs completeness varies by aircraft. If you want guaranteed fields, we can add local overrides per type (your own “known-good” numbers).
+          </div>
+        </div>
+      `;
+    } catch (e){
+      elDetail.innerHTML = `<div class="small">Error loading details: ${escapeHtml(e.message || String(e))}</div>`;
+    }
+  }
+
+  function clearFilters(){
+    elQ.value = "";
+    activeTags.clear();
+    showAllTags = false;
+    renderChips();
+    renderList();
+    renderFilterSummary();
+  }
+
+  async function init(){
+    const r = await fetch(CATALOG_URL);
+    catalog = await r.json();
+
+    renderChips();
+    renderList();
+    renderFilterSummary();
+
+    elQ.addEventListener("input", () => { renderList(); renderFilterSummary(); });
+    elSort.addEventListener("change", renderList);
+    elTagMode.addEventListener("change", renderList);
+    elClearBtn.addEventListener("click", clearFilters);
+
+    // Auto-select first item
+    if(catalog.length) selectAircraft(catalog[0]);
+  }
+
+  init();
+</script>
+</body>
+</html>

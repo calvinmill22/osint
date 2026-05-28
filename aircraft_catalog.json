@@ -1,0 +1,931 @@
+[
+  {
+    "id": "a320",
+    "name": "Airbus A320 family",
+    "icao": "A320",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "narrowbody"
+    ],
+    "wikipedia_title": "Airbus A320 family"
+  },
+  {
+    "id": "a321neo",
+    "name": "Airbus A321neo",
+    "icao": "A21N",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "narrowbody"
+    ],
+    "wikipedia_title": "Airbus A321neo"
+  },
+  {
+    "id": "a330",
+    "name": "Airbus A330",
+    "icao": "A333",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Airbus A330"
+  },
+  {
+    "id": "a350",
+    "name": "Airbus A350",
+    "icao": "A359",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Airbus A350"
+  },
+  {
+    "id": "b737max",
+    "name": "Boeing 737 MAX",
+    "icao": "B38M",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "narrowbody"
+    ],
+    "wikipedia_title": "Boeing 737 MAX"
+  },
+  {
+    "id": "b737ng",
+    "name": "Boeing 737 Next Generation",
+    "icao": "B738",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "narrowbody"
+    ],
+    "wikipedia_title": "Boeing 737 Next Generation"
+  },
+  {
+    "id": "b757",
+    "name": "Boeing 757",
+    "icao": "B752",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "narrowbody"
+    ],
+    "wikipedia_title": "Boeing 757"
+  },
+  {
+    "id": "b777",
+    "name": "Boeing 777",
+    "icao": "B77W",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Boeing 777"
+  },
+  {
+    "id": "b787",
+    "name": "Boeing 787 Dreamliner",
+    "icao": "B789",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Boeing 787 Dreamliner"
+  },
+  {
+    "id": "atr72",
+    "name": "ATR 72",
+    "icao": "AT76",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "turboprop",
+      "regional"
+    ],
+    "wikipedia_title": "ATR 72"
+  },
+  {
+    "id": "dash8",
+    "name": "De Havilland Canada Dash 8",
+    "icao": "DH8D",
+    "tags": [
+      "passenger",
+      "fixedwing",
+      "turboprop",
+      "regional"
+    ],
+    "wikipedia_title": "De Havilland Canada Dash 8"
+  },
+  {
+    "id": "a300",
+    "name": "Airbus A300",
+    "icao": "A306",
+    "tags": [
+      "cargo",
+      "fixedwing",
+      "freighter",
+      "widebody"
+    ],
+    "wikipedia_title": "Airbus A300"
+  },
+  {
+    "id": "b748",
+    "name": "Boeing 747-8",
+    "icao": "B748",
+    "tags": [
+      "cargo",
+      "passenger",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Boeing 747-8"
+  },
+  {
+    "id": "b767",
+    "name": "Boeing 767",
+    "icao": "B763",
+    "tags": [
+      "passenger",
+      "cargo",
+      "fixedwing",
+      "airliner",
+      "widebody"
+    ],
+    "wikipedia_title": "Boeing 767"
+  },
+  {
+    "id": "c208",
+    "name": "Cessna 208 Caravan",
+    "icao": "C208",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "turboprop",
+      "utility",
+      "cargo"
+    ],
+    "wikipedia_title": "Cessna 208 Caravan"
+  },
+  {
+    "id": "md11",
+    "name": "McDonnell Douglas MD-11",
+    "icao": "MD11",
+    "tags": [
+      "cargo",
+      "fixedwing",
+      "freighter"
+    ],
+    "wikipedia_title": "McDonnell Douglas MD-11"
+  },
+  {
+    "id": "c27j",
+    "name": "Alenia C-27J Spartan",
+    "icao": "C27J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport"
+    ],
+    "wikipedia_title": "Alenia C-27J Spartan"
+  },
+  {
+    "id": "c12_huron",
+    "name": "Beechcraft C-12 Huron (King Air)",
+    "icao": "BE20",
+    "tags": [
+      "military",
+      "fixedwing",
+      "utility",
+      "transport"
+    ],
+    "wikipedia_title": "Beechcraft C-12 Huron"
+  },
+  {
+    "id": "c17",
+    "name": "Boeing C-17 Globemaster III",
+    "icao": "C17",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport"
+    ],
+    "wikipedia_title": "Boeing C-17 Globemaster III"
+  },
+  {
+    "id": "c32",
+    "name": "Boeing C-32",
+    "icao": "B757",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "vip"
+    ],
+    "wikipedia_title": "Boeing C-32"
+  },
+  {
+    "id": "c40",
+    "name": "Boeing C-40 Clipper",
+    "icao": "B737",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "vip"
+    ],
+    "wikipedia_title": "Boeing C-40 Clipper"
+  },
+  {
+    "id": "kc135",
+    "name": "Boeing KC-135 Stratotanker",
+    "icao": "K35R",
+    "tags": [
+      "military",
+      "fixedwing",
+      "tanker"
+    ],
+    "wikipedia_title": "Boeing KC-135 Stratotanker"
+  },
+  {
+    "id": "kc46",
+    "name": "Boeing KC-46 Pegasus",
+    "icao": "K46A",
+    "tags": [
+      "military",
+      "fixedwing",
+      "tanker"
+    ],
+    "wikipedia_title": "Boeing KC-46 Pegasus"
+  },
+  {
+    "id": "p8",
+    "name": "Boeing P-8 Poseidon",
+    "icao": "P8",
+    "tags": [
+      "military",
+      "fixedwing",
+      "patrol"
+    ],
+    "wikipedia_title": "Boeing P-8 Poseidon"
+  },
+  {
+    "id": "c146a",
+    "name": "Dornier C-146A Wolfhound (Dornier 328)",
+    "icao": "D328",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "specialoperations"
+    ],
+    "wikipedia_title": "Dornier 328"
+  },
+  {
+    "id": "c37",
+    "name": "Gulfstream C-37A/B",
+    "icao": "GLF5",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "vip",
+      "businessjet"
+    ],
+    "wikipedia_title": "Gulfstream V"
+  },
+  {
+    "id": "c21a",
+    "name": "Learjet C-21A",
+    "icao": "LJ35",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "businessjet"
+    ],
+    "wikipedia_title": "Learjet 35"
+  },
+  {
+    "id": "ac130",
+    "name": "Lockheed AC-130 Gunship",
+    "icao": "C130",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialoperations",
+      "gunship"
+    ],
+    "wikipedia_title": "Lockheed AC-130"
+  },
+  {
+    "id": "c121_constellation",
+    "name": "Lockheed C-121 Constellation",
+    "icao": "",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "193rd",
+      "historical"
+    ],
+    "wikipedia_title": "Lockheed C-121 Constellation"
+  },
+  {
+    "id": "c130",
+    "name": "Lockheed C-130 Hercules",
+    "icao": "C130",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport"
+    ],
+    "wikipedia_title": "Lockheed C-130 Hercules"
+  },
+  {
+    "id": "c5_galaxy",
+    "name": "Lockheed C-5 Galaxy",
+    "icao": "C5",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "heavy"
+    ],
+    "wikipedia_title": "Lockheed C-5 Galaxy"
+  },
+  {
+    "id": "ec121_warning_star",
+    "name": "Lockheed EC-121 Warning Star",
+    "icao": "",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialmission",
+      "awacs",
+      "193rd",
+      "historical"
+    ],
+    "wikipedia_title": "Lockheed EC-121 Warning Star"
+  },
+  {
+    "id": "ec130e",
+    "name": "Lockheed EC-130E (Commando Solo / Volant Solo)",
+    "icao": "C130",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialmission",
+      "psyops",
+      "193rd",
+      "historical"
+    ],
+    "wikipedia_title": "Lockheed EC-130"
+  },
+  {
+    "id": "ec130j_commando_solo",
+    "name": "Lockheed EC-130J Commando Solo",
+    "icao": "C30J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialmission",
+      "psyops",
+      "193rd",
+      "historical"
+    ],
+    "wikipedia_title": "Lockheed EC-130J Commando Solo"
+  },
+  {
+    "id": "hc130j",
+    "name": "Lockheed HC-130J Combat King II",
+    "icao": "C30J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "searchandrescue",
+      "specialoperations"
+    ],
+    "wikipedia_title": "Lockheed HC-130J"
+  },
+  {
+    "id": "c130j",
+    "name": "Lockheed Martin C-130J Super Hercules",
+    "icao": "C30J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport"
+    ],
+    "wikipedia_title": "Lockheed Martin C-130J Super Hercules"
+  },
+  {
+    "id": "mc130j",
+    "name": "Lockheed Martin MC-130J Commando II",
+    "icao": "C30J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "specialoperations",
+      "193rd"
+    ],
+    "wikipedia_title": "Lockheed MC-130"
+  },
+  {
+    "id": "wc130j",
+    "name": "Lockheed WC-130J (Hurricane Hunter)",
+    "icao": "C30J",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialmission",
+      "weather"
+    ],
+    "wikipedia_title": "Lockheed WC-130"
+  },
+  {
+    "id": "c145a",
+    "name": "PZL M28 / C-145A Skytruck",
+    "icao": "M28",
+    "tags": [
+      "military",
+      "fixedwing",
+      "transport",
+      "specialoperations",
+      "utility"
+    ],
+    "wikipedia_title": "PZL M28 Skytruck"
+  },
+  {
+    "id": "u28a",
+    "name": "Pilatus U-28A Draco (PC-12)",
+    "icao": "PC12",
+    "tags": [
+      "military",
+      "fixedwing",
+      "specialoperations",
+      "intelligence"
+    ],
+    "wikipedia_title": "Pilatus PC-12"
+  },
+  {
+    "id": "v22",
+    "name": "Bell Boeing V-22 Osprey (CV/MV-22)",
+    "icao": "V22",
+    "tags": [
+      "military",
+      "tiltrotor",
+      "transport",
+      "specialoperations"
+    ],
+    "wikipedia_title": "Bell Boeing V-22 Osprey"
+  },
+  {
+    "id": "ah64",
+    "name": "Boeing AH-64 Apache",
+    "icao": "H64",
+    "tags": [
+      "military",
+      "rotary",
+      "helicopter",
+      "attack"
+    ],
+    "wikipedia_title": "Boeing AH-64 Apache"
+  },
+  {
+    "id": "ch47",
+    "name": "Boeing CH-47 Chinook",
+    "icao": "H47",
+    "tags": [
+      "military",
+      "rotary",
+      "helicopter",
+      "lift",
+      "heavy",
+      "ftig",
+      "eaats"
+    ],
+    "wikipedia_title": "Boeing CH-47 Chinook"
+  },
+  {
+    "id": "uh72",
+    "name": "Eurocopter UH-72 Lakota",
+    "icao": "EC45",
+    "tags": [
+      "military",
+      "rotary",
+      "helicopter",
+      "utility",
+      "trainer",
+      "ftig",
+      "eaats"
+    ],
+    "wikipedia_title": "Eurocopter UH-72 Lakota"
+  },
+  {
+    "id": "uh60",
+    "name": "Sikorsky UH-60 Black Hawk",
+    "icao": "H60",
+    "tags": [
+      "military",
+      "rotary",
+      "helicopter",
+      "utility",
+      "assault",
+      "ftig",
+      "eaats"
+    ],
+    "wikipedia_title": "Sikorsky UH-60 Black Hawk"
+  },
+  {
+    "id": "cl60",
+    "name": "Bombardier Challenger 600 series",
+    "icao": "CL60",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Bombardier Challenger 600 series"
+  },
+  {
+    "id": "c750",
+    "name": "Cessna Citation X",
+    "icao": "C750",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Cessna Citation X"
+  },
+  {
+    "id": "c56x",
+    "name": "Cessna Citation XLS/Excel",
+    "icao": "C56X",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Cessna Citation Excel"
+  },
+  {
+    "id": "glf5",
+    "name": "Gulfstream G550",
+    "icao": "GLF5",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Gulfstream G550"
+  },
+  {
+    "id": "glf6",
+    "name": "Gulfstream G650",
+    "icao": "GLF6",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Gulfstream G650"
+  },
+  {
+    "id": "lj45",
+    "name": "Learjet 45",
+    "icao": "LJ45",
+    "tags": [
+      "businessjet",
+      "fixedwing",
+      "private"
+    ],
+    "wikipedia_title": "Learjet 45"
+  },
+  {
+    "id": "s76",
+    "name": "Sikorsky S-76",
+    "icao": "S76",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "utility",
+      "vip"
+    ],
+    "wikipedia_title": "Sikorsky S-76"
+  },
+  {
+    "id": "be58",
+    "name": "Beechcraft Baron",
+    "icao": "BE58",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "twin",
+      "personal"
+    ],
+    "wikipedia_title": "Beechcraft Baron"
+  },
+  {
+    "id": "be36",
+    "name": "Beechcraft Bonanza",
+    "icao": "BE36",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Beechcraft Bonanza"
+  },
+  {
+    "id": "c150",
+    "name": "Cessna 150",
+    "icao": "C150",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 150"
+  },
+  {
+    "id": "c152",
+    "name": "Cessna 152",
+    "icao": "C152",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 152"
+  },
+  {
+    "id": "c172",
+    "name": "Cessna 172 Skyhawk",
+    "icao": "C172",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 172"
+  },
+  {
+    "id": "c182",
+    "name": "Cessna 182 Skylane",
+    "icao": "C182",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 182 Skylane"
+  },
+  {
+    "id": "c206",
+    "name": "Cessna 206 Stationair",
+    "icao": "C206",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "utility",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 206"
+  },
+  {
+    "id": "c210",
+    "name": "Cessna 210 Centurion",
+    "icao": "C210",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Cessna 210 Centurion"
+  },
+  {
+    "id": "sr20",
+    "name": "Cirrus SR20",
+    "icao": "SR20",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Cirrus SR20"
+  },
+  {
+    "id": "sr22",
+    "name": "Cirrus SR22",
+    "icao": "SR22",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Cirrus SR22"
+  },
+  {
+    "id": "da40",
+    "name": "Diamond DA40",
+    "icao": "DA40",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Diamond DA40"
+  },
+  {
+    "id": "da42",
+    "name": "Diamond DA42 Twin Star",
+    "icao": "DA42",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "twin",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Diamond DA42"
+  },
+  {
+    "id": "m20",
+    "name": "Mooney M20",
+    "icao": "M20P",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Mooney M20"
+  },
+  {
+    "id": "pa28",
+    "name": "Piper PA-28 Cherokee",
+    "icao": "P28A",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Piper PA-28 Cherokee"
+  },
+  {
+    "id": "pa32",
+    "name": "Piper PA-32 Cherokee Six / Saratoga",
+    "icao": "P32R",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "personal"
+    ],
+    "wikipedia_title": "Piper PA-32 Cherokee Six"
+  },
+  {
+    "id": "pa34",
+    "name": "Piper PA-34 Seneca",
+    "icao": "PA34",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "twin",
+      "personal"
+    ],
+    "wikipedia_title": "Piper PA-34 Seneca"
+  },
+  {
+    "id": "pa44",
+    "name": "Piper PA-44 Seminole",
+    "icao": "PA44",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "piston",
+      "twin",
+      "trainer"
+    ],
+    "wikipedia_title": "Piper PA-44 Seminole"
+  },
+  {
+    "id": "pa46",
+    "name": "Piper PA-46 Malibu / Meridian",
+    "icao": "PA46",
+    "tags": [
+      "generalaviation",
+      "fixedwing",
+      "personal",
+      "turboprop",
+      "piston"
+    ],
+    "wikipedia_title": "Piper PA-46"
+  },
+  {
+    "id": "h125",
+    "name": "Airbus Helicopters H125 (AS350)",
+    "icao": "AS50",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "utility"
+    ],
+    "wikipedia_title": "Eurocopter AS350 Écureuil"
+  },
+  {
+    "id": "h145",
+    "name": "Airbus Helicopters H145",
+    "icao": "EC45",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "medevac",
+      "utility"
+    ],
+    "wikipedia_title": "Eurocopter EC145"
+  },
+  {
+    "id": "bell206",
+    "name": "Bell 206",
+    "icao": "B06",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "utility"
+    ],
+    "wikipedia_title": "Bell 206"
+  },
+  {
+    "id": "b407",
+    "name": "Bell 407",
+    "icao": "B407",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "utility",
+      "personal"
+    ],
+    "wikipedia_title": "Bell 407"
+  },
+  {
+    "id": "r22",
+    "name": "Robinson R22",
+    "icao": "R22",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "trainer",
+      "personal"
+    ],
+    "wikipedia_title": "Robinson R22"
+  },
+  {
+    "id": "r44",
+    "name": "Robinson R44",
+    "icao": "R44",
+    "tags": [
+      "rotary",
+      "helicopter",
+      "personal"
+    ],
+    "wikipedia_title": "Robinson R44"
+  }
+]
+ 
