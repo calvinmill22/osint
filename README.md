@@ -61,6 +61,12 @@ Edit `.env` and set your local values, especially:
 - `RECEIVER_LON`
 - (optional) `OPENSKY_CLIENT_ID` / `OPENSKY_CLIENT_SECRET`
 
+First-run setup path:
+
+- If receiver coordinates are not set in `.env`, open `http://localhost:8000/setup`
+- Submit latitude/longitude there; values are stored locally in SQLite settings
+- `.env` values (when both are valid) override saved setup values
+
 Run the app:
 
 ```bash
@@ -75,7 +81,13 @@ Do not commit your `.env` file or private receiver coordinates.
 
 ## Configuration (Placeholder)
 
-Configuration currently relies on environment variables (see `.env.example`), with receiver location and ADS-B feed endpoint planned for first-run setup.
+Configuration precedence for receiver coordinates:
+
+1. `RECEIVER_LAT` + `RECEIVER_LON` in environment (`.env`) when both are valid floats
+2. Values saved via `/setup` in local SQLite `settings` table
+3. Placeholder `0.0, 0.0` if neither source is configured
+
+Keep `.env` local-only and never commit private coordinates.
 
 ## Roadmap (Placeholder)
 

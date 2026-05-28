@@ -12,7 +12,7 @@ import time
 from datetime import datetime
 from typing import List, Optional
 from math import radians, sin, cos, sqrt, atan2
-from fastapi import FastAPI, Request 
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 
 try:
@@ -88,6 +88,12 @@ def init_db() -> None:
         country       TEXT,
         last_lookup   TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS settings (
+        key        TEXT PRIMARY KEY,
+        value      TEXT NOT NULL,
+        updated_at TEXT
+    );
     """
     conn = get_db()
     try:
@@ -132,6 +138,91 @@ def _get_float_env(name: str, default: float) -> float:
     except ValueError:
         return default
 
+def _is_valid_lat_lon(lat: float, lon: float) -> bool:
+    return -90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0
+
+def _get_settings_receiver_coords() -> Optional[tuple[float, float]]:
+    conn = get_db()
+    try:
+        cur = conn.execute(
+            """
+            SELECT key, value
+            FROM settings
+            WHERE key IN ('receiver_lat', 'receiver_lon')
+            """
+        )
+        rows = {row["key"]: row["value"] for row in cur.fetchall()}
+    finally:
+        conn.close()
+
+    lat_raw = (rows.get("receiver_lat") or "").strip()
+    lon_raw = (rows.get("receiver_lon") or "").strip()
+    if not lat_raw or not lon_raw:
+        return None
+
+    try:
+        lat = float(lat_raw)
+        lon = float(lon_raw)
+    except ValueError:
+        return None
+
+    if not _is_valid_lat_lon(lat, lon):
+        return None
+    return lat, lon
+
+def save_receiver_coords(lat: float, lon: float) -> None:
+    now = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+    conn = get_db()
+    try:
+        conn.execute(
+            """
+            INSERT INTO settings (key, value, updated_at)
+            VALUES ('receiver_lat', ?, ?)
+            ON CONFLICT(key) DO UPDATE SET
+                value = excluded.value,
+                updated_at = excluded.updated_at
+            """,
+            (str(lat), now),
+        )
+        conn.execute(
+            """
+            INSERT INTO settings (key, value, updated_at)
+            VALUES ('receiver_lon', ?, ?)
+            ON CONFLICT(key) DO UPDATE SET
+                value = excluded.value,
+                updated_at = excluded.updated_at
+            """,
+            (str(lon), now),
+        )
+        conn.commit()
+    finally:
+        conn.close()
+
+def resolve_receiver_config() -> tuple[float, float, str, bool]:
+    env_lat_raw = (os.getenv("RECEIVER_LAT", "") or "").strip()
+    env_lon_raw = (os.getenv("RECEIVER_LON", "") or "").strip()
+    if env_lat_raw and env_lon_raw:
+        try:
+            env_lat = float(env_lat_raw)
+            env_lon = float(env_lon_raw)
+            if _is_valid_lat_lon(env_lat, env_lon):
+                return env_lat, env_lon, "env", True
+        except ValueError:
+            pass
+
+    setup_coords = _get_settings_receiver_coords()
+    if setup_coords is not None:
+        return setup_coords[0], setup_coords[1], "setup", True
+
+    return 0.0, 0.0, "placeholder", False
+
+def apply_receiver_config(lat: float, lon: float, source: str, configured: bool) -> None:
+    global RECEIVER_LAT, RECEIVER_LON, RECEIVER_CONFIG_SOURCE, RECEIVER_COORDS_CONFIGURED
+    RECEIVER_LAT = lat
+    RECEIVER_LON = lon
+    RECEIVER_CONFIG_SOURCE = source
+    RECEIVER_COORDS_CONFIGURED = configured
+
 ADS_B_HOST = os.getenv("ADSB_HOST", "127.0.0.1")
 try:
     ADS_B_PORT = int(os.getenv("ADSB_PORT", "30003"))
@@ -145,6 +236,7 @@ RECEIVER_COORDS_CONFIGURED = bool(
     (os.getenv("RECEIVER_LAT", "") or "").strip()
     and (os.getenv("RECEIVER_LON", "") or "").strip()
 )
+RECEIVER_CONFIG_SOURCE = "env" if RECEIVER_COORDS_CONFIGURED else "placeholder"
 
 # Dicts for throttling + behavior detection + freshness
 _last_aircraft_event_ts: dict[str, float] = {}
@@ -670,6 +762,10 @@ def get_basic_status() -> dict:
         "service": "sideband-watchtower",
         "host": socket.gethostname(),
         "time_utc": now,
+        "receiver_config_source": RECEIVER_CONFIG_SOURCE,
+        "receiver_configured": RECEIVER_COORDS_CONFIGURED,
+        "receiver_lat": RECEIVER_LAT,
+        "receiver_lon": RECEIVER_LON,
         "total_events": total_events,
         "total_aircraft": total_aircraft,
         "last_event": last_event,
@@ -1035,7 +1131,10 @@ def adsb_worker_thread():
 @app.on_event("startup")
 async def startup_event():
     init_db()
+    lat, lon, source, configured = resolve_receiver_config()
+    apply_receiver_config(lat, lon, source, configured)
     print(f"[Startup] ADS-B feed target: {ADS_B_HOST}:{ADS_B_PORT}", flush=True)
+    print(f"[Startup] Receiver config source: {RECEIVER_CONFIG_SOURCE}", flush=True)
     if RECEIVER_COORDS_CONFIGURED:
         print(
             f"[Startup] Receiver coordinates configured: ({RECEIVER_LAT:.5f}, {RECEIVER_LON:.5f})",
@@ -1071,6 +1170,9 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard() -> HTMLResponse:
+    if not RECEIVER_COORDS_CONFIGURED:
+        return RedirectResponse(url="/setup", status_code=303)
+
     events = fetch_recent_events(limit=100)
 
     rows_html = ""
@@ -1706,6 +1808,123 @@ def dashboard() -> HTMLResponse:
     </html>
     """
     return HTMLResponse(content=html)
+
+def render_setup_page(error: Optional[str] = None, lat_value: str = "", lon_value: str = "") -> HTMLResponse:
+    error_html = f'<p style="color:#ff8f8f;">{error}</p>' if error else ""
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Receiver Setup - Sideband Watchtower</title>
+      <style>
+        body {{
+          background: #070b16;
+          color: #e8edff;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          margin: 0;
+          padding: 30px 16px;
+        }}
+        .card {{
+          max-width: 640px;
+          margin: 0 auto;
+          background: #0d1529;
+          border: 1px solid rgba(0,224,255,0.2);
+          border-radius: 12px;
+          padding: 18px;
+        }}
+        h1 {{
+          margin-top: 0;
+        }}
+        label {{
+          display: block;
+          margin-top: 12px;
+          margin-bottom: 6px;
+          color: #b8c9ff;
+        }}
+        input {{
+          width: 100%;
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid rgba(0,224,255,0.3);
+          background: #080f21;
+          color: #f2f6ff;
+          box-sizing: border-box;
+        }}
+        button {{
+          margin-top: 16px;
+          padding: 10px 14px;
+          border: 1px solid rgba(0,224,255,0.35);
+          border-radius: 8px;
+          background: rgba(0,216,255,0.12);
+          color: #e6faff;
+          cursor: pointer;
+          font-weight: 600;
+        }}
+        .note {{
+          margin-top: 14px;
+          color: #9fb2ea;
+          font-size: 14px;
+        }}
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <h1>Receiver setup</h1>
+        <p>Enter your local ADS-B receiver coordinates. These values are stored locally in SQLite on this device.</p>
+        <p class="note">Do not commit private receiver coordinates to source control. Keep private values in local runtime config only.</p>
+        <p class="note">Example format: latitude <code>40.12345</code>, longitude <code>-75.12345</code></p>
+        {error_html}
+        <form method="post" action="/setup">
+          <label for="latitude">Latitude (-90 to 90)</label>
+          <input id="latitude" name="latitude" value="{lat_value}" required />
+          <label for="longitude">Longitude (-180 to 180)</label>
+          <input id="longitude" name="longitude" value="{lon_value}" required />
+          <button type="submit">Save receiver location</button>
+        </form>
+      </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html)
+
+@app.get("/setup", response_class=HTMLResponse)
+def setup_get() -> HTMLResponse:
+    if RECEIVER_COORDS_CONFIGURED:
+        return RedirectResponse(url="/", status_code=303)
+
+    db_coords = _get_settings_receiver_coords()
+    if db_coords is None:
+        return render_setup_page()
+    return render_setup_page(lat_value=f"{db_coords[0]}", lon_value=f"{db_coords[1]}")
+
+@app.post("/setup", response_class=HTMLResponse)
+def setup_post(latitude: str = Form(...), longitude: str = Form(...)):
+    lat_raw = (latitude or "").strip()
+    lon_raw = (longitude or "").strip()
+
+    try:
+        lat = float(lat_raw)
+        lon = float(lon_raw)
+    except ValueError:
+        return render_setup_page(
+            error="Latitude and longitude must be numeric values.",
+            lat_value=lat_raw,
+            lon_value=lon_raw,
+        )
+
+    if not _is_valid_lat_lon(lat, lon):
+        return render_setup_page(
+            error="Latitude must be between -90 and 90, and longitude between -180 and 180.",
+            lat_value=lat_raw,
+            lon_value=lon_raw,
+        )
+
+    save_receiver_coords(lat, lon)
+    new_lat, new_lon, new_source, new_configured = resolve_receiver_config()
+    apply_receiver_config(new_lat, new_lon, new_source, new_configured)
+    return RedirectResponse(url="/", status_code=303)
 
 
 @app.get("/aircraft/{ident}", response_class=HTMLResponse)
