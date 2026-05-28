@@ -31,6 +31,12 @@ logs/
 tmp/
 temp/
 
+# Local archive snapshots
+_local_archives/
+*.tar.gz
+*.tgz
+*.zip
+
 # Private/local operator notes
 watchtower osint cheats.txt
 

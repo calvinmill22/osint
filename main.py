@@ -75,7 +75,7 @@ def init_db() -> None:
         latitude     REAL,
         longitude    REAL,
         tags         TEXT,
-        interesting_score REAL        
+        interesting_score REAL
     );
 
     CREATE TABLE IF NOT EXISTS aircraft_meta (
